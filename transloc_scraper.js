@@ -19,15 +19,7 @@ page.settings.userAgent = getUserAgent();
 
 page.onResourceReceived = function(response) {
 	if(response['url'].indexOf("feeds.transloc.com") != -1){
-  		// console.log('Receive ' + JSON.stringify(response, undefined, 4));
-  		$.ajax({
-		    type: "GET",
-		    url: response["url"],
-		    dataType: 'json',
-		    success: function (data) {
-		    	console.log(data);
-		    }
-  		});
+		console.log(response['url']);
   	}
 };
 
@@ -38,7 +30,6 @@ page.open("http://harvard.transloc.com/", function (status) {
         } else {
         	console.log("On site, grabbing requests");
         	page.evaluate(function () {
-        		Syncer.prototype.sync();
         	});
         }
 });
