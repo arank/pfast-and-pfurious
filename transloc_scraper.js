@@ -1,4 +1,5 @@
 require('./jquery-2.0.3.js');
+require('./util/alert.js');
 
 // Runs a randomized user Agent to throw off simple server side rate limits etc.
 function getUserAgent(){
@@ -10,14 +11,44 @@ function getUserAgent(){
     return items[Math.floor(Math.random()*items.length)];
 }
 
+function mandrillAlert(program_name, subject, body, owners){
+
+    console.log("sending mandrill mail")
+
+    var all_recipient_objects = [];
+    var recipients = owners.split(',');
+    recipients.forEach(function (entry){
+        recipient_object = { "email": entry };
+        all_recipient_objects.push(recipient_object);
+    });
+
+    var data = {
+        "key": "FCppeY-FJBY6_Mvtq_rMKQ",
+        "message": 
+        {   "html": body,
+            "text": body,
+            "subject": subject,
+            "from_email": "8guys1block@gmail.com",
+            "from_name": program_name,
+            "to": all_recipient_objects
+        },
+        "async": false
+    };
+
+
+    $.ajax({
+        type: "POST",
+        url: 'https://mandrillapp.com/api/1.0/messages/send.json',
+        data: data
+    });
+
+    console.log('mandrill mail sent');
+}
 
 var page = require('webpage').create();
 page.settings.userAgent = getUserAgent();
-
-// page.onResourceRequested = function(request) {
-//   console.log('Request ' + JSON.stringify(request, undefined, 4));
-// };
-
+// mandrillAlert('Transloc Scraper', 'On Site and Scraping', 'Getting Data', 'arankhanna@college.harvard.edu');
+        
 page.onResourceReceived = function(response) {
 	if(response['url'].indexOf("feeds.transloc.com") != -1){
 		// console.log(response['url']);
@@ -25,6 +56,7 @@ page.onResourceReceived = function(response) {
         json_page.open(response['url'], function(status){
             // Check for page load success
             if (status !== "success") {
+                // TODO alert error
                 console.log("Unable to access network for json.");
             } else {
                 var re = /(\().+?(?=\);)/g;
@@ -37,6 +69,7 @@ page.onResourceReceived = function(response) {
                         if(bus['agency_id'] == 52){
                             // TODO Only add a new data point if timestamp updates
                             // TODO Current stop id is null, until the bus is at a stop (can possibly use this as target for prediction)
+                            // TODO store so as to prevent double storage (on timestamp bus id combo) (or filter later to prevent double storage)
                             console.log('Route '+bus['route_id']+', Bus '+bus['call_name']+','+bus['id']+','+bus['timestamp']+": " + bus['position'][0] + ',' + bus['position'][0] + ' at '+ bus['current_stop_id']);
                         }
                     });
@@ -51,10 +84,21 @@ page.onResourceReceived = function(response) {
 page.open("http://harvard.transloc.com/", function (status) {
 	 // Check for page load success
         if (status !== "success") {
+            // TODO alert error
             console.log("Unable to access network for page.");
         } else {
         	console.log("On site, grabbing requests");
-        	page.evaluate(function () {
+            page.evaluate(function () {
         	});
         }
 });
+
+
+// Closes page after a set time this allows for fault tolerance/redundancy.
+// TODO set to same lenght as cron (reset daily) with overlap (as same value won't be double stored so multiple of these can run at once)
+setTimeout(
+  function() 
+  {
+    page.close();
+    phantom.exit();
+  }, 86400000);
