@@ -7,7 +7,7 @@ require('./../jquery-2.0.3.js');
  */
 function mandrillAlert(program_name, subject, body, owners){
 
-    console.log("sending mandrill mail")
+    console.log("sending mandrill mail");
 
     var all_recipient_objects = [];
     var recipients = owners.split(',');

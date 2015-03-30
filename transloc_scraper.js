@@ -28,7 +28,7 @@ function mandrillAlert(program_name, subject, body, owners){
         {   "html": body,
             "text": body,
             "subject": subject,
-            "from_email": "8guys1block@gmail.com",
+            "from_email": "arankhanna25@gmail.com",
             "from_name": program_name,
             "to": all_recipient_objects
         },
@@ -59,6 +59,7 @@ page.onResourceReceived = function(response) {
                 // TODO alert error
                 console.log("Unable to access network for json.");
             } else {
+                // Pull out the json from the innane wrapping
                 var re = /(\().+?(?=\);)/g;
                 var content = json_page.content.match(re);
                 // console.log('Content: ' + String(content).substring(1));
@@ -95,7 +96,7 @@ page.open("http://harvard.transloc.com/", function (status) {
 
 
 // Closes page after a set time this allows for fault tolerance/redundancy.
-// TODO set to same lenght as cron (reset daily) with overlap (as same value won't be double stored so multiple of these can run at once)
+// TODO set to same length as cron (reset daily) with overlap (as same value won't be double stored so multiple of these can run at once)
 setTimeout(
   function() 
   {
