@@ -14,3 +14,14 @@ function mongoWrite(collection, data){
 	// TODO write to offiste mongo
 	console.log("data written");
 }
+
+
+// Expose these functions to other files when imported
+// module.exports = {
+//   foo: function () {
+//     // whatever
+//   },
+//   bar: function () {
+//     // whatever
+//   }
+// };

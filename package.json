@@ -1,0 +1,20 @@
+{
+  "name": "shuttle-project",
+  "version": "0.0.0",
+  "description": "Shuttle Scraper For Transloc data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arank/pfast-and-pfurious.git"
+  },
+  "author": "Aran Khanna",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "fbc610f034dd61eecb03ddd649e3a7729fd3b55e",
+  "bugs": {
+    "url": "https://github.com/arank/pfast-and-pfurious/issues"
+  }
+}
