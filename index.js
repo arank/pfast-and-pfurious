@@ -24,7 +24,7 @@ function queueForWrite(dataPoint){
 	// Write original points to buffer
 	if(orig){
 		pointBuffer.push(dataPoint);
-		// Flush earlist half of buffer when it is over the max buffer size
+		// Flush earlist half of buffer when it is over the max buffer size (50 is arbitrarily large enough)
 		if(pointBuffer.length>50){	
 			IO.mongoWrite(passwords['mongo-uri'], passwords['mongo-collection'], pointBuffer.splice(0,25));
 		}
