@@ -1,5 +1,4 @@
-// Requires JQuery 2.0.3 and above
-require('./../jquery-2.0.3.js');
+var http = require('http');
 
 /**
  * Send a structured email, via the mandrill rest api, and AJAX
@@ -38,3 +37,14 @@ function mandrillAlert(program_name, subject, body, owners){
 
     console.log('mandrill mail sent');
 }
+
+
+// Expose these functions to other files when imported
+// module.exports = {
+//   foo: function () {
+//     // whatever
+//   },
+//   bar: function () {
+//     // whatever
+//   }
+// };

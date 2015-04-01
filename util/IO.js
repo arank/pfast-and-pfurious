@@ -1,27 +1,20 @@
-// Requires Phantom JS file system
-var fs = require('fs');
-// Requires JQuery 2.0.3 and above
-require('./../jquery-2.0.3.js');
+var MongoClient = require('mongodb').MongoClient
 
-function csvWrite(path, data){
-	console.log("writing data to file: "+path);
-	fs.write(path, data, 'a');	
-	console.log("data written");
-}
+module.exports = {
+  	mongoWrite: function (uri, collection_name, dataPointList) {
+	    console.log("writing "+dataPointList.length+" data points to Mongo Server.");
+		MongoClient.connect(uri, function(error, db) {
+			if(error){
+				// TODO alert error
+				console.log("Failed to connect to mongo server: "+error);
+				return;
+			}
 
-function mongoWrite(collection, data){
-	console.log("writing data to mongo: "+collection);
-	// TODO write to offiste mongo
-	console.log("data written");
-}
-
-
-// Expose these functions to other files when imported
-// module.exports = {
-//   foo: function () {
-//     // whatever
-//   },
-//   bar: function () {
-//     // whatever
-//   }
-// };
+			var collection = db.collection(collection_name);
+			collection.insert(dataPointList, function(err, result){
+				// TODO figure out real error since it writes but still fills error and returns no result
+			});
+			db.close();
+		});
+  	}	
+};
