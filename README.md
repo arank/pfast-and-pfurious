@@ -1,6 +1,6 @@
 # pfast-and-pfurious
-Scraper and ML based data analysis for shuttle times.
+Scraper and data analysis for Transloc shuttle times.
 
-The main file here is the phantomjs scraper file (transloc_scraper.js) this file when run with phantomjs will continuously log (to stdout for now) the positions of every shuttle from the live feed given by harvard.transloc.com. 
+The main file here is index.js this file is a node program that depends on phantomjs to continuously log (to cloud mongo) the positions of every shuttle from the live feed given by harvard.transloc.com (this can be changed in the config.json file). 
 
-The Python file is a test (though still minimally functional if you want to play with it) Ignore it.
+The data analysis code will be found in the analysis subfolder and we plan to publish a blog with the patterns we found.
