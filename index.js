@@ -25,8 +25,8 @@ function queueForWrite(dataPoint){
 	if(orig){
 		pointBuffer.push(dataPoint);
 		// Flush earlist half of buffer when it is over the max buffer size (50 is arbitrarily large enough)
-		if(pointBuffer.length>50){	
-			IO.mongoWrite(passwords['mongo-uri'], passwords['mongo-collection'], pointBuffer.splice(0,25));
+		if(pointBuffer.length>config['buffer-size']){	
+			IO.mongoWrite(passwords['mongo-uri'], passwords['mongo-collection'], pointBuffer.splice(0,config['buffer-size']/2));
 		}
 	}
 }
@@ -44,9 +44,13 @@ phantom.create(function (ph) {
 	        	setTimeout(
 				  function() 
 				  {
-				  	// TODO flush queue for writing before exit
-				  	console.log("Exiting webpage to refresh.");
-				    ph.exit();
+				  	console.log("Writing remaining data and exiting webpage to refresh.");
+				    IO.mongoWrite(passwords['mongo-uri'], passwords['mongo-collection'], pointBuffer);
+				    setTimeout(
+				    	function()
+				    	{
+				    		ph.exit();
+				    	}, config['data-flush-timeout']);
 				  }, config['refresh-timeout']);
 	        }
 	    });

@@ -1,1 +1,1 @@
-{"agency-id":"52", "transloc-domain":"http://harvard.transloc.com/", "refresh-timeout":"600000"}
+{"agency-id":"52", "transloc-domain":"http://harvard.transloc.com/", "refresh-timeout":"600000", "data-flush-timeout":"5000", "buffer-size":"50"}
